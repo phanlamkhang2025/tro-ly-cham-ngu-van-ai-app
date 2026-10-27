@@ -1,0 +1,6 @@
+{
+  "name": "TRỢ LÝ AI CHẤM BÀI NGỮ VĂN THPT – GDPT 2018",
+  "description": "Trợ lý thông minh hỗ trợ giáo viên THPT chấm bài, đánh giá năng lực Ngữ văn theo Chương trình GDPT 2018 bằng AI Gemini với thang điểm và tiêu chí chính xác.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

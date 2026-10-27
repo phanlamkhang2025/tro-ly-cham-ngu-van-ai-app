@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function() {
+        // Provide a configurable getter/setter for window.fetch to prevent extension interceptors
+        // from throwing "Cannot set property fetch of #<Window> which has only a getter"
+        try {
+          var originalFetch = window.fetch ? window.fetch.bind(window) : null;
+          var currentFetch = originalFetch;
+          Object.defineProperty(window, 'fetch', {
+            configurable: true,
+            enumerable: true,
+            get: function() {
+              return currentFetch;
+            },
+            set: function(val) {
+              currentFetch = val;
+            }
+          });
+        } catch (e) {
+          try {
+            var protoFetch = Window.prototype.fetch;
+            Object.defineProperty(Window.prototype, 'fetch', {
+              configurable: true,
+              enumerable: true,
+              get: function() { return protoFetch; },
+              set: function(val) { protoFetch = val; }
+            });
+          } catch (_) {}
+        }
+
+        // Suppress third-party chrome-extension errors from breaking the page execution
+        window.addEventListener('error', function(event) {
+          if (
+            (event.filename && event.filename.indexOf('chrome-extension://') !== -1) ||
+            (event.message && (
+              event.message.indexOf('Cannot set property fetch') !== -1 ||
+              event.message.indexOf('requests.js') !== -1
+            ))
+          ) {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+            return true;
+          }
+        }, true);
+      })();
+    </script>
+    <title>TRỢ LÝ AI CHẤM BÀI NGỮ VĂN THPT – GDPT 2018</title>
+    <meta name="description" content="Trợ lý thông minh hỗ trợ giáo viên THPT chấm bài, đánh giá năng lực Ngữ văn theo Chương trình GDPT 2018 bằng AI Gemini với thang điểm và tiêu chí chính xác." />
+    <meta property="og:title" content="TRỢ LÝ AI CHẤM BÀI NGỮ VĂN THPT – GDPT 2018" />
+    <meta property="og:description" content="Trợ lý thông minh hỗ trợ giáo viên THPT chấm bài, đánh giá năng lực Ngữ văn theo Chương trình GDPT 2018 bằng AI Gemini với thang điểm và tiêu chí chính xác." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
